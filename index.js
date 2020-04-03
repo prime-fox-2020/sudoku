@@ -151,7 +151,7 @@ class Sudoku {
 var fs = require('fs')
 var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
   .toString()
-  .split("\n")[1]
+  .split("\n")[0]
 
 var game = new Sudoku(board_string)
 // console.log(game.board())
