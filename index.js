@@ -12,7 +12,8 @@ class Sudoku {
         backTrackData.push(i)
       }
     }
-    for(let i = 0; i < backTrackData.length;){
+    let i = 0
+    while(i < backTrackData.length){
       let row = Math.floor(backTrackData[i]/9)
       let col = backTrackData[i] - row*9
       let arr = this.createTempArrayBoard()
