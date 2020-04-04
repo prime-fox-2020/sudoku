@@ -52,7 +52,10 @@ class Sudoku {
   // Cek dengan bantuan Flagging
   flagging (data, baris, kolom, angka){
     for (let i = 0; i < data.length; i++) {
-      if (data[baris][i] == angka || data[i][kolom] == angka) {
+      // Menambah Flagging dengan Mencek per Area 3*3
+      let row = Math.floor(i/3) + Math.floor(baris/3) *3
+      let colum = i % 3 + Math.floor(kolom/3) * 3
+      if (data[baris][i] == angka || data[i][kolom] == angka || data[row][colum] == angka) {
         return false;
       }
     }
