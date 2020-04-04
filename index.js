@@ -87,9 +87,13 @@ class Sudoku {
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 let fs = require('fs')
+let inputanUser = 0 
+if(process.argv[2] !==undefined){
+  inputanUser = Number(process.argv[2])
+}
 let board_string = fs.readFileSync('./set-01_sample.unsolved.txt')
   .toString()
-  .split("\n")[0]
+  .split("\n")[inputanUser]
 
 // Mengubah data Input menjadi data Array 9*9
 let dataArr=[];
