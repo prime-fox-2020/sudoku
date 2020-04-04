@@ -1,4 +1,4 @@
-// "use strict"
+"use strict"
 
 class Sudoku {
   constructor(board_string) {
@@ -70,49 +70,29 @@ class Sudoku {
   }
   checkRow(row, col, angka){
     let arr = this.createTempArrayBoard()
-    let uniqueNum = {}
-    for(let i = 1; i <= 9; i++){
-      let flag = false
-      for(let j = 0; j < arr.length; j++){
-        if(i == arr[row][j] && j !== col){
-          flag = true
-        }
+    let flag = true
+    for(let j = 0; j < arr.length; j++){
+      if(arr[row][j] == angka){
+        flag = false
       }
       if(!flag){
-        uniqueNum[i] = true
-      }
-    }
-    let checkflag = false
-    for(let key in uniqueNum){
-      if(key == angka){
-        checkflag = true
         break
       }
     }
-    return checkflag
+    return flag
   }
   checkColumn(row, col, angka){
     let arr = this.createTempArrayBoard()
-    let uniqueNum = {}
-    for(let i = 1; i <= 9; i++){
-      let flag = false
-      for(let j = 0; j < arr[row].length; j++){
-        if(i == arr[j][col] && j !== row){
-          flag = true
-        }
+    let flag = true
+    for(let j = 0; j < arr.length; j++){
+      if(arr[j][col] == angka){
+        flag = false
       }
       if(!flag){
-        uniqueNum[i] = true
-      }
-    }
-    let checkflag = false
-    for(let key in uniqueNum){
-      if(key == angka){
-        checkflag = true
         break
       }
     }
-    return checkflag
+    return flag
   }
   checkBox(row, col, angka){
     let arr = this.createTempArrayBoard()
@@ -132,6 +112,9 @@ class Sudoku {
           flag = false
           break
         }
+      }
+      if(!flag){
+        break
       }
     }
     return flag
