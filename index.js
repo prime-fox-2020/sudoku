@@ -26,27 +26,37 @@ class Sudoku {
    }
   }
 
-  //Memasukan angka Sudoku Dengan mengecheck Perbaris
+  //Memasukan angka Sudoku Dengan mengecheck Perbaris dan Colum
   solve() {
     let angka ='123456789'; 
     for (let i = 0; i < this.dataSudoku.length; i++) {
       for (let j = 0; j < this.dataSudoku[i].length; j++) {
-
-        if(this.dataSudoku[i][j]==0){
+        if(this.dataSudoku[i][j]== '0' ){
           for (let k = 0; k < angka.length; k++) {
-
-            var cekBaris= true
-            for (let p = 0; p < this.dataSudoku[i].length; p++) {
-              if(angka[k] == this.dataSudoku[i][p]){
-                cekBaris = false
+            if(game.flagging(this.dataSudoku,i,j,angka[k])){
+              this.dataSudoku[i][j] = angka[k]
+              if(game.solve()){
+                return true
+              }else{
+                this.dataSudoku[i][j] = '0';
               }
             }
-            if(cekBaris)
-            this.dataSudoku[i][j] = angka[k]
           }
+          return false
         }
       }
     }
+    return true
+  }
+
+  // Cek dengan bantuan Flagging
+  flagging (data, baris, kolom, angka){
+    for (let i = 0; i < data.length; i++) {
+      if (data[baris][i] == angka || data[i][kolom] == angka) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // Returns a string representing the current state of the board
@@ -69,9 +79,7 @@ class Sudoku {
      }
    }
   }
-
 }
-
 
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
@@ -100,7 +108,6 @@ for (let i = 0; i < dataArr.length; i++) {
 let game = new Sudoku(dataSudoku)
 
 // // Remember: this will just fill out what it can and not "guess"
-
 game.oldBoard()
 game.solve()
 game.board()
