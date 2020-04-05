@@ -106,6 +106,10 @@ class Sudoku {
     return arr.some(el => el === num)
   }
 
+  checkInCol(arr, num) {
+    return arr.some(el => el === num)
+  }
+
   solve(mode) {
     let n = 1
     do {
@@ -117,7 +121,7 @@ class Sudoku {
               num
             for (let k = 1; k <= this.boardSize; k++) {
               num = k.toString()
-              if (!this.checkInRow(this.getBoard[i], num) && !this._yAxis[j].some(el => el === num)) {
+              if (!this.checkInRow(this.getBoard[i], num) && !this.checkInCol(this._yAxis[j], num)) {
                 if (!this._grid[mapper[Math.floor(i / 3)][Math.floor(j / 3)]].some(el => el === num)) {
                   if (mode === '-v') console.log(`${k.toString()} >>> ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
                   arr.push(k.toString())
