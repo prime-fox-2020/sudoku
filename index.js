@@ -6,6 +6,41 @@ class Sudoku {
   }
 
   solve() {
+    for (let sub in this.board) {
+      for (let cell in this.board[sub]) {
+        if (this.board[sub][cell] == 0) {
+          let inside = true;
+          let horizontally = true;
+          let vertically = true;
+          let uniqueNumber = 1;
+          // console.log(this.board[sub][cell]);
+          do {
+            
+            let i = 0;
+            while (i < 9){
+              debugger;
+              if (this.board[sub][i] == uniqueNumber){
+                uniqueNumber++;
+                break;
+              }
+              i++;
+            }
+            if (i == 9) {
+              debugger;
+              inside = false;
+              console.log(`${uniqueNumber} is not in sub cell`);
+            }
+
+
+
+            // uniqueNumber++;
+          }
+          while (inside); //&& horizontally && vertically
+          this.board[sub][cell] = uniqueNumber;
+          console.log(game.printBoard());
+        }
+      }
+    }
   }
 
   // Returns a string representing the current state of the board
@@ -15,7 +50,6 @@ class Sudoku {
       for (let i = 0; i < 9; i+=3) {
         for (let j = 0; j < 3; j++) {
           for (let k = 0; k < 3; k++) {
-            debugger;
             string += this.board[j+h][k+i];
           }
           if (j != 3) {
@@ -65,7 +99,7 @@ var game = new Sudoku(board_string);
 console.log(game.printBoard());
 
 // Remember: this will just fill out what it can and not "guess"
-// game.solve();
+game.solve();
 
 // console.log(game.board());
 
