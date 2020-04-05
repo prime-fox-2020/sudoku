@@ -6,13 +6,14 @@ class Sudoku {
   }
 
   solve() {
+    let backTrack = false;
     for (let sub in this.board) {
       for (let cell in this.board[sub]) {
         if (this.board[sub][cell] == 0) {
+          backTrack = false;
           let inside = false;
           let horizontally = false
           let vertically = false;
-          let backTrack = false;
           let uniqueNumber = 0;
           
           while(!inside && !horizontally && !vertically) {
@@ -78,8 +79,6 @@ class Sudoku {
             }
           }
           if (!backTrack) {
-            console.log(this.printBoard());
-            console.log("Miscombination. You need to back track!");
             this.board[sub][cell] = uniqueNumber;
           } else {
             break;
@@ -87,6 +86,12 @@ class Sudoku {
         }
       }
     }
+    if (backTrack) {
+      console.log("Miscombination. You need to back track!");
+    } else {
+      console.log("Congratulation! Sudoku is solved");
+    }
+    console.log(this.printBoard());
   }
 
   // Returns a string representing the current state of the board
@@ -142,9 +147,8 @@ var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
   .split("\n")[0]
 var game = new Sudoku(board_string);
 
+console.log("Solve the puzzle");
 console.log(game.printBoard());
 
 // Remember: this will just fill out what it can and not "guess"
 game.solve();
-
-console.log(game.printBoard());
