@@ -33,9 +33,9 @@ class Sudoku {
       for (let j = 0; j < this.dataSudoku[i].length; j++) {
         if(this.dataSudoku[i][j]== '0' ){
           for (let k = 0; k < angka.length; k++) {
-            if(game.flagging(this.dataSudoku,i,j,angka[k])){
+            if(this.flagging(this.dataSudoku,i,j,angka[k])){
               this.dataSudoku[i][j] = angka[k]
-              if(game.solve()){
+              if(this.solve()){
                 return true
               }else{
                 this.dataSudoku[i][j] = '0';
