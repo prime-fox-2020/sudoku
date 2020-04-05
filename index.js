@@ -102,11 +102,16 @@ class Sudoku {
     }
   }
 
+  //I dont like these methods :(
   checkInRow(arr, num) {
     return arr.some(el => el === num)
   }
 
   checkInCol(arr, num) {
+    return arr.some(el => el === num)
+  }
+
+  checkInGrid(arr, num) {
     return arr.some(el => el === num)
   }
 
@@ -121,11 +126,9 @@ class Sudoku {
               num
             for (let k = 1; k <= this.boardSize; k++) {
               num = k.toString()
-              if (!this.checkInRow(this.getBoard[i], num) && !this.checkInCol(this._yAxis[j], num)) {
-                if (!this._grid[mapper[Math.floor(i / 3)][Math.floor(j / 3)]].some(el => el === num)) {
-                  if (mode === '-v') console.log(`${k.toString()} >>> ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
-                  arr.push(k.toString())
-                }
+              if (!this.checkInRow(this.getBoard[i], num) && !this.checkInCol(this._yAxis[j], num) && !this.checkInGrid(this._grid[mapper[Math.floor(i / 3)][Math.floor(j / 3)]], num)) {
+                if (mode === '-v') console.log(`${k.toString()} >>> ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
+                arr.push(k.toString())
                 if (arr.length > 1) break
               }
             }
