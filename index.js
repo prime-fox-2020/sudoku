@@ -9,35 +9,26 @@ class Sudoku {
     for (let sub in this.board) {
       for (let cell in this.board[sub]) {
         if (this.board[sub][cell] == 0) {
-          let inside = true;
-          let horizontally = true;
-          let vertically = true;
-          let uniqueNumber = 1;
-          // console.log(this.board[sub][cell]);
-          do {
-            
-            let i = 0;
-            while (i < 9){
-              debugger;
+          let inside = false;
+          let backTrack = false;
+          let uniqueNumber = 0;
+          while(!inside) {
+            uniqueNumber++;
+            for (let i = 0; i < 9; i++){
               if (this.board[sub][i] == uniqueNumber){
-                uniqueNumber++;
+                inside = true;
                 break;
               }
-              i++;
             }
-            if (i == 9) {
-              debugger;
+
+            if (inside) {
               inside = false;
-              console.log(`${uniqueNumber} is not in sub cell`);
+            } else {
+              break;
             }
-
-
-
-            // uniqueNumber++;
           }
-          while (inside); //&& horizontally && vertically
           this.board[sub][cell] = uniqueNumber;
-          console.log(game.printBoard());
+          // console.log(this.printBoard());
         }
       }
     }
@@ -46,11 +37,11 @@ class Sudoku {
   // Returns a string representing the current state of the board
   printBoard() {
     let string = '-----------\n';
-    for (let h = 0; h < 9; h+=3) {
-      for (let i = 0; i < 9; i+=3) {
+    for (let h = 0; h < 9; h += 3) {
+      for (let i = 0; i < 9; i += 3) {
         for (let j = 0; j < 3; j++) {
           for (let k = 0; k < 3; k++) {
-            string += this.board[j+h][k+i];
+            string += this.board[j + h][k + i];
           }
           if (j != 3) {
             string += '|';
@@ -74,11 +65,11 @@ class Sudoku {
   insert(string) {
     const board = this.initiate();
     let index = 0;
-    for (let h = 0; h < 9; h+=3) {
+    for (let h = 0; h < 9; h += 3) {
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
           for (let k = 0; k < 3; k++) {
-            board[j+h].push(string[index]);
+            board[j + h].push(+string[index]);
             index++;
           }
         }
@@ -101,12 +92,4 @@ console.log(game.printBoard());
 // Remember: this will just fill out what it can and not "guess"
 game.solve();
 
-// console.log(game.board());
-
-
-
-
-// leftRigt(process.argv[2]);
-// upDown(process.argv[2]);
-
-// console.log(Sudoku.initiate());
+console.log(game.printBoard());
