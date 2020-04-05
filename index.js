@@ -1,10 +1,12 @@
 "use strict"
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
-var fs = require('fs')
-var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
+const fs = require('fs'),
+source = fs.readFileSync('set-01_sample.unsolved.txt')
   .toString()
-  .split("\r\n")[5]
+  .split("\r\n"),
+opt = process.argv[2] || 1,
+board_string = source[opt]
 
 class Sudoku {
   constructor(board_string) {
@@ -170,7 +172,7 @@ class Sudoku {
 }
 
 
-var game = new Sudoku(board_string)
+const game = new Sudoku(board_string)
 console.log(game.board())
 // auto solve in background add '-v' to display message
 game.solve()
