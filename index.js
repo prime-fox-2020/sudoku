@@ -75,11 +75,9 @@ class Sudoku {
       }
       dest.push(rowAxis)
     }
-    // console.log(this.getBoard)
   }
 
   collectColumn(src, dest) {
-    // console.log('cC')
     for (let i = 0; i < this.boardSize; i++) {
       let temp = []
       for (let j = 0; j < this.boardSize; j++) {
@@ -90,7 +88,6 @@ class Sudoku {
   }
 
   collectGrid(src, dest) {
-    // console.log('grid')
     let grid = Math.floor(Math.sqrt(this.boardSize))
     for (let i = 0; i < this.boardSize; i += 3) {
       for (let j = 0; j < this.boardSize; j += 3) {
@@ -105,6 +102,10 @@ class Sudoku {
     }
   }
 
+  checkInRow(arr, num) {
+    return arr.some(el => el === num)
+  }
+
   solve(mode) {
     let n = 1
     do {
@@ -116,7 +117,7 @@ class Sudoku {
               num
             for (let k = 1; k <= this.boardSize; k++) {
               num = k.toString()
-              if (!this.getBoard[i].some(el => el === num) && !this._yAxis[j].some(el => el === num)) {
+              if (!this.checkInRow(this.getBoard[i], num) && !this._yAxis[j].some(el => el === num)) {
                 if (!this._grid[mapper[Math.floor(i / 3)][Math.floor(j / 3)]].some(el => el === num)) {
                   if (mode === '-v') console.log(`${k.toString()} >>> ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
                   arr.push(k.toString())
@@ -165,7 +166,10 @@ class Sudoku {
 var game = new Sudoku(board_string)
 console.log(game.board())
 // auto solve in background add '-v' to display message
-console.log(game.solve())
+game.solve()
+
+console.log(game.board())
+
 
 // console.log(board_string)
 
