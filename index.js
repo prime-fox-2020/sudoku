@@ -159,7 +159,6 @@ class Sudoku {
   // Returns a string representing the current state of the board
   board(arr = this.getBoard) {
     let output = '-----------\n'
-
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         output += arr[i][j]
@@ -170,7 +169,6 @@ class Sudoku {
     return output
   }
 }
-
 
 const game = new Sudoku(board_string)
 console.log(game.board())
