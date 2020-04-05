@@ -19,6 +19,7 @@ class Sudoku {
     this._loop = 0
     this._answer = undefined
     this._boardSize = Math.floor(Math.sqrt(board_string.length))
+    this.gameStart()
   }
 
   get boardString() {
@@ -52,13 +53,17 @@ class Sudoku {
     this._answer = str
   }
 
-  gameStart() {
+  userStart() {
     this.devide(this.userBoard, this.boardString)
     this.collectColumn(this.userBoard, this._userY)
     this.collectGrid(this.userBoard, this._userGrid)
   }
 
-
+  gameStart() {
+    this.devide(this.getBoard, this.boardString)
+    this.collectColumn(this.getBoard, this._yAxis)
+    this.collectGrid(this.getBoard, this._grid)
+  }
 
   devide(dest, str) {
     let count = 0
@@ -98,14 +103,10 @@ class Sudoku {
         dest.push(temp)
       }
     }
-    // console.log(this._grid)
   }
 
-  solve() {
+  solve(mode) {
     let n = 1
-    this.devide(this.getBoard, this.boardString)
-    this.collectColumn(this.getBoard, this._yAxis)
-    this.collectGrid(this.getBoard, this._grid)
     do {
       for (let i = 0; i < this.boardSize; i++) {
         for (let j = 0; j < this.boardSize; j++) {
@@ -117,7 +118,7 @@ class Sudoku {
               num = k.toString()
               if (!this.getBoard[i].some(el => el === num) && !this._yAxis[j].some(el => el === num)) {
                 if (!this._grid[mapper[Math.floor(i / 3)][Math.floor(j / 3)]].some(el => el === num)) {
-                  console.log(`${k.toString()} ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
+                  if (mode === '-v') console.log(`${k.toString()} >>> ${i + ' ' + j} >>> ${mapper[Math.floor(i / 3)][Math.floor(j / 3)]}`)
                   arr.push(k.toString())
                 }
                 if (arr.length > 1) break
@@ -129,31 +130,43 @@ class Sudoku {
               this.collectColumn(this.getBoard, this._yAxis)
               this._grid = []
               this.collectGrid(this.getBoard, this._grid)
-              // console.log(this.board())
             } 
           }
         }
       }
-      if (this.board(this.getBoard).indexOf('0') < 0) this.gameEnded = true
+      if (this.boardToString(this.getBoard).indexOf('0') < 0) this.gameEnded = true
       n++
     } while (!this.gameEnded)
     this.loopCount = n
-    this.answer = this.board(this.getBoard)
+    this.answer = this.boardToString(this.getBoard)
+  }
+
+  boardToString(arr) {
+    return !arr[0] ? this.boardString
+      : arr[0].concat(arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]).join('')
   }
 
   // Returns a string representing the current state of the board
-  board(arr) {
-    // console.log(arr[0])
+  board(arr = this.getBoard) {
+    let output = '-----------\n'
 
-    return !arr[0] ? this.boardString
-      : arr[0].concat(arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]).join('')
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        output += arr[i][j]
+        if (j % 3 === 2 && j !== 8) output += '|'
+      }
+      i % 3 === 2 ? output += '\n-----------\n' : output += '\n'
+    }
+    return output
   }
 }
 
 
 var game = new Sudoku(board_string)
-console.log(game.gameStart())
-console.log(game.board(game.userBoard))
+console.log(game.board())
+// auto solve in background add '-v' to display message
+console.log(game.solve())
+
 // console.log(board_string)
 
 // Remember: this will just fill out what it can and not "guess"
