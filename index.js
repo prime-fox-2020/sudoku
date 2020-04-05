@@ -14,40 +14,39 @@ class Sudoku {
           let vertically = false;
           let backTrack = false;
           let uniqueNumber = 0;
-          // while(!inside) {
-          // while(!horizontally) {
-          while(!vertically) {
+          
+          while(!inside && !horizontally && !vertically) {
             uniqueNumber++;
-
-            // for (let i = 0; i < 9; i++){
-            //   if (this.board[sub][i] == uniqueNumber){
-            //     inside = true;
-            //     break;
-            //   }
-            // }
-
-            // let row = +sub;
-            // let column = +cell;
-            // for (let j = 0; j < 3; j++) {
-            //   for (let k = 0; k < 3; k++) {
-            //     if (this.board[row][column] == uniqueNumber) {
-            //       horizontally = true;
-            //       j = 3;
-            //       break;
-            //     }
-            //     column++;
-            //     if (column % 3 == 0) {
-            //       column -= 3;
-            //     }
-            //   }
-            //   row++;
-            //   if (row % 3 == 0) {
-            //     row -= 3;
-            //   }
-
+            // Check inside the little square
+            for (let i = 0; i < 9; i++){
+              if (this.board[sub][i] == uniqueNumber){
+                inside = true;
+                break;
+              }
+            }
+            // Check cell in the same row
+            let row = +sub;
+            let column = +cell;
+            for (let j = 0; j < 3; j++) {
+              for (let k = 0; k < 3; k++) {
+                if (this.board[row][column] == uniqueNumber) {
+                  horizontally = true;
+                  j = 3;
+                  break;
+                }
+                column++;
+                if (column % 3 == 0) {
+                  column -= 3;
+                }
+              }
+              row++;
+              if (row % 3 == 0) {
+                row -= 3;
+              }
+            }
+            // Check cell in the same column
             let vRow = +sub;
             let vColumn = +cell;
-
             for (let l = 0; l < 3; l++) {
               for (let m = 0; m < 3; m++) {
                 if (this.board[vRow][vColumn] == uniqueNumber) {
@@ -65,27 +64,26 @@ class Sudoku {
                 vRow %= 3;
               }
             }
-
-            if (vertically) {
-                vertically = false;
-            } else {
+            // Check all condition
+            if (inside || horizontally || vertically) {
+              inside = false;
+              horizontally = false;  
+              vertically = false;
+              if (uniqueNumber == 9) {
+                backTrack = true;
                 break;
+              }
+            } else {
+              break;
             }
-
-            // if (horizontally) {
-            //     horizontally = false;
-            // } else {
-            //   break;
-            // }
-
-            // if (inside) {
-            //   inside = false;
-            // } else {
-            //   break;
-            // }
           }
-          this.board[sub][cell] = uniqueNumber;
-          // console.log(this.printBoard());
+          if (!backTrack) {
+            console.log(this.printBoard());
+            console.log("Miscombination. You need to back track!");
+            this.board[sub][cell] = uniqueNumber;
+          } else {
+            break;
+          }
         }
       }
     }
