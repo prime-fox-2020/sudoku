@@ -11,10 +11,12 @@ class Sudoku {
         if (this.board[sub][cell] == 0) {
           let inside = false;
           let horizontally = false
+          let vertically = false;
           let backTrack = false;
           let uniqueNumber = 0;
           // while(!inside) {
-          while(!horizontally) {
+          // while(!horizontally) {
+          while(!vertically) {
             uniqueNumber++;
 
             // for (let i = 0; i < 9; i++){
@@ -24,31 +26,57 @@ class Sudoku {
             //   }
             // }
 
-            let row = sub;
-            let column = cell;
-            for (let j = 0; j < 3; j++) {
-              for (let k = 0; k < 3; k++) {
-                if (this.board[row][column] == uniqueNumber) {
-                  horizontally = true;
-                  j = 3;
+            // let row = +sub;
+            // let column = +cell;
+            // for (let j = 0; j < 3; j++) {
+            //   for (let k = 0; k < 3; k++) {
+            //     if (this.board[row][column] == uniqueNumber) {
+            //       horizontally = true;
+            //       j = 3;
+            //       break;
+            //     }
+            //     column++;
+            //     if (column % 3 == 0) {
+            //       column -= 3;
+            //     }
+            //   }
+            //   row++;
+            //   if (row % 3 == 0) {
+            //     row -= 3;
+            //   }
+
+            let vRow = +sub;
+            let vColumn = +cell;
+
+            for (let l = 0; l < 3; l++) {
+              for (let m = 0; m < 3; m++) {
+                if (this.board[vRow][vColumn] == uniqueNumber) {
+                  vertically = true;
+                  l = 3;
                   break;
                 }
-                column++;
-                if (column % 3 == 0) {
-                  column -= 3;
+                vColumn += 3;
+                if (Math.floor(vColumn / 3) >= 3) {
+                  vColumn %= 3;
                 }
               }
-              row++;
-              if (row % 3 == 0) {
-                row -= 3;
+              vRow += 3;
+              if (Math.floor(vRow / 3) >= 3) {
+                vRow %= 3;
               }
             }
 
-            if (horizontally) {
-                horizontally = false;
+            if (vertically) {
+                vertically = false;
             } else {
-              break;
+                break;
             }
+
+            // if (horizontally) {
+            //     horizontally = false;
+            // } else {
+            //   break;
+            // }
 
             // if (inside) {
             //   inside = false;
