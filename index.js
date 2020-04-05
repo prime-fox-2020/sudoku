@@ -10,22 +10,51 @@ class Sudoku {
       for (let cell in this.board[sub]) {
         if (this.board[sub][cell] == 0) {
           let inside = false;
+          let horizontally = false
           let backTrack = false;
           let uniqueNumber = 0;
-          while(!inside) {
+          // while(!inside) {
+          while(!horizontally) {
             uniqueNumber++;
-            for (let i = 0; i < 9; i++){
-              if (this.board[sub][i] == uniqueNumber){
-                inside = true;
-                break;
+
+            // for (let i = 0; i < 9; i++){
+            //   if (this.board[sub][i] == uniqueNumber){
+            //     inside = true;
+            //     break;
+            //   }
+            // }
+
+            let row = sub;
+            let column = cell;
+            for (let j = 0; j < 3; j++) {
+              for (let k = 0; k < 3; k++) {
+                if (this.board[row][column] == uniqueNumber) {
+                  horizontally = true;
+                  j = 3;
+                  break;
+                }
+                column++;
+                if (column % 3 == 0) {
+                  column -= 3;
+                }
+              }
+              row++;
+              if (row % 3 == 0) {
+                row -= 3;
               }
             }
 
-            if (inside) {
-              inside = false;
+            if (horizontally) {
+                horizontally = false;
             } else {
               break;
             }
+
+            // if (inside) {
+            //   inside = false;
+            // } else {
+            //   break;
+            // }
           }
           this.board[sub][cell] = uniqueNumber;
           // console.log(this.printBoard());
